@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スネークゲーム</title>
+  </head>
+  <body>
+    <script>
+
+      // canvasを利用してスネークゲームを作成する(canvasを利用するためのおまじない)
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      // canvasの高さと横幅の設定(px)
+      canvas.height = 400
+      canvas.width = 400
+      // canvasの見た目の設定
+      canvas.setAttribute('style', 'display: block; margin: auto; background-color: #FFDBC9;')
+      // canvasを画面の要素に追加
+      document.body.appendChild(canvas)
+
+      // canvasの設定
+      // マス目の大きさ設定(px)
+      const MASS = 20
+      // 画面全体の縦横のマス数
+      const AREA = canvas.width / MASS
+
+      // ヘビの設定
+      const snake = {
+        // ヘビがいる座標(x,y)
+        x: null,
+        y: null,
+        // ヘビが動く方向(dx：+1なら右で-1なら左、dy：+1なら上、-1なら下)
+        dx: 1,
+        dy: 0,
+        // ヘビの長さ
+        block: null,
+
+        // ヘビの描画処理
+        paint: function() {
+          // ヘビを描画する座標をbodyという配列に入れる
+          this.body.push({
+            x: this.x,
+            y: this.y
+          })
+          // ヘビを動かす
+          this.x += this.dx
+          this.y += this.dy
+
+          // ヘビに色をつける
+          ctx.fillStyle = 'green'
+          // 実際に描画する処理
+          this.body.forEach(ob => {
+            ctx.fillRect(ob.x * MASS, ob.y * MASS, MASS - 1, MASS - 1)
+          })
+          // ヘビの長さを調整する処理
+          if(this.body.length > this.block){
+            this.body.shift()
+          }
+        }
+      }
+
+      // 食べ物の設定
+      const food = {
+        x: null,
+        y: null,
+
+        paint: function() {
+          // ヘビに色をつける
+          ctx.fillStyle = 'red'
+          // 実際に描画する処理
+          ctx.fillRect(this.x * MASS, this.y * MASS, MASS - 1, MASS - 1)
+        }
+      }
+
+
+      // 初期状態の情報を設定
+      const initialize = () => {
+        // ヘビの初期位置
+        snake.x = AREA / 2
+        snake.y = AREA / 2
+        // ヘビブロックの個数
+        snake.block = 3
+        // ヘビの要素の座標(配列形式)
+        snake.body = []
+
+        // 食べ物の初期位置(ランダムで決まる)
+        food.x = Math.floor(Math.random() * AREA)
+        food.y = Math.floor(Math.random() * AREA)
+      }
+
+      // 連続で描画をする処理
+      const loop = () => {
+        // 一度描画したものをリセットする
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // ヘビの描画処理
+        snake.paint()
+        // 食べ物の描画処理
+        food.paint()
+      }
+
+      // 実際に初期化処理を動かす
+      initialize()
+      // 決まった時間ごとに連続で描画をする処理を動かす
+      setInterval(loop, 1000/10)
+
+    </script>
+  </body>
+</html>

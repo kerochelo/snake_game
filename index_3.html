@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スネークゲーム</title>
+  </head>
+  <body>
+    <script>
+
+      // canvasを利用してスネークゲームを作成する(canvasを利用するためのおまじない)
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      // canvasの高さと横幅の設定(px)
+      canvas.height = 400
+      canvas.width = 400
+      // canvasの見た目の設定
+      canvas.setAttribute('style', 'display: block; margin: auto; background-color: #FFDBC9;')
+      // canvasを画面の要素に追加
+      document.body.appendChild(canvas)
+
+      // canvasの設定
+      // マス目の大きさ設定(px)
+      const MASS = 20
+      // 画面全体の縦横のマス数
+      const AREA = canvas.width / MASS
+
+      // ヘビの設定
+      const snake = {
+        // ヘビがいる座標(x,y)
+        x: null,
+        y: null,
+        // ヘビが動く方向(dx：+1なら右で-1なら左、dy：+1なら上、-1なら下)
+        dx: 0,
+        dy: 0,
+        // ヘビの長さ
+        block: null,
+      }
+
+      // 初期状態の情報を設定
+      const initialize = () => {
+        // ヘビの初期位置
+        snake.x = AREA / 2
+        snake.y = AREA / 2
+        // ヘビブロックの個数
+        snake.block = 3
+      }
+
+      initialize()
+    </script>
+  </body>
+</html>
